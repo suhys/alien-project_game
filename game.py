@@ -21,6 +21,7 @@ class Settings():
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = 60,60,60 
+        self.bullets_allowed = 3
         
         
 class Ship():
@@ -80,8 +81,14 @@ def run_game():
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
         bullets.update()
+        
+        # Get rid of bullets that have disappeared
+        for bullet in bullets.copy():
+            if bullet.rect.bottom <= 0:
+                bullets.remove(bullet)
+        print(len(bullets))
+        
         gf.update_screen(ai_settings, screen, ship, bullets)
         
-run_game()
         
 run_game()

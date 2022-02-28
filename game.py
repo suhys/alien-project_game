@@ -1,95 +1,29 @@
-import sys
 import pygame
-import game_function as gf
-from alien import Alien
-from pygame.sprite import Group  
 
-class Settings():
-    """ A clas to store all settings for Alien Invasion"""
-    
-    def __init__(self):
-        """Initialize the game's settings""" 
-        #Screen settings
-        self.screen_width = 1000
-        self.screen_height = 600 
-        self.bg_color = (230,230,230)
-        
-        # ship settings
-        self.ship_speed_factor = 1.5
-        
-        #Bullet settings
-        self.bullet_speed_factor = 1
-        self.bullet_width = 3
-        self.bullet_height = 15
-        self.bullet_color = 60,60,60 
-        self.bullets_allowed = 3
-        
-        
-class Ship():
-    def __init__(self, ai_settings, screen):
-        """Initialize the ship and set its starting position"""
-        self.screen = screen
-        self.ai_settings = ai_settings
-        
-        #Load the ship image and get its rect
-        self.image = pygame.image.load('images/ship.bmp')
-        self.rect = self.image.get_rect()
-        self.screen_rect = screen.get_rect()
-        
-        # start each new ship at the bottom center of the screen
-        self.rect.centerx = self.screen_rect.centerx
-        self.rect.bottom = self.screen_rect.bottom
-        
-        #Store a decimal value for the ship's center
-        self.center = float(self.rect.centerx)
-        
-        #Movement lfag
-        self.moving_right = False
-        self.moving_left = False
-    
-    def update(self):
-        """Update the ship's position based on the movment flag"""
-        # Update the ship's center value, not the rect.
-        if self.moving_right and self.rect.right < self.screen_rect.right:
-            self.center += self.ai_settings.ship_speed_factor
-        if self.moving_left and self.rect.left > 0:
-            self.center -= self.ai_settings.ship_speed_factor
-            
-        # Update rect object from self.center
-        self.rect.centerx = self.center
-        
-    def blitme(self):
-        """draw the ship at its current location"""
-        self.screen.blit(self.image, self.rect)
+from settings import Settings
+from ship import Ship
+import game_function as gf
+
 
 def run_game():
-    #Initialize pygame, setting, and screen object
+    #initialize pygame, settings, and screen object
     pygame.init()
     ai_settings = Settings()
-    screen = pygame.display.set_mode((
-        ai_settings.screen_width, ai_settings.screen_height
-    ))
+    screen = pygame.display.set_mode((ai_settings.screen_width, ai_settings.screen_hight))
+
+    # create a display winddow called screen 
     pygame.display.set_caption("Alien Invasion")
     
-    #Make a ship
+    # Make a ship
     ship = Ship(ai_settings, screen)
-    #Make a group to store bullets in 
-    bullets = Group()
-    aliens = Group()
-    
-    #Create the fleet of aliens
-    gf.create_fleet(ai_settings, screen, ship, aliens)
-    
-    #maek an alien
-    alien = Alien(ai_settings, screen)
-    
-    # Start the main loop for the game.
+        
+    # Start the main loop for the game
     while True:
-        #Watch for keyboard and mouse events.
-        gf.check_events(ai_settings, screen, ship, bullets)
+        # call function check_event for respond keyboard and mouse events
+        gf.check_events(ship)
+        # update the ship position based on the check_event
         ship.update()
-        gf.update_bullets(bullets)    
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets)
-        
-        
+        # call function update_screen for update images on screen and flip to the new screen
+        gf.update_screen(ai_settings, screen, ship)
+
 run_game()

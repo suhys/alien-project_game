@@ -17,7 +17,7 @@ def run_game():
     
     # Make a ship
     ship = Ship(ai_settings, screen)
-    
+     
     # Make a group to store bullets in
     bullets = Group()
         

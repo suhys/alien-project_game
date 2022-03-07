@@ -33,6 +33,7 @@ def run_game():
         # update the ship position based on the check_event
         ship.update()
         gf.update_bullets(bullets)
+        gf.update_aliens(ai_settings, aliens)
             
         # call function update_screen for update images on screen and flip to the new screen
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)

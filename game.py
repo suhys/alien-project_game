@@ -4,6 +4,7 @@ from settings import Settings
 from ship import Ship
 import game_function as gf
 from aliens import Aliens
+from bullet import Bullets
 
 
 def run_game():
@@ -18,19 +19,19 @@ def run_game():
     # Make a ship
     ship = Ship(ai_settings, screen)
      
-    # Make a group to store bullets in
-    bullets = Group()
-    
     # Make a alien
     aliens = Aliens(ai_settings, screen, ship)
+    
+    # Make a group to store bullets in
+    bullets = Bullets(ai_settings, screen, ship, aliens)
         
     # Start the main loop for the game
     while True:
         # call function check_event for respond keyboard and mouse events
-        gf.check_events(ai_settings, screen, ship, bullets)
+        gf.check_events(ship, bullets)
         # update the ship position based on the check_event
         ship.update()
-        gf.update_bullets(ai_settings, screen, ship, aliens, bullets)
+        bullets.update_bullets()
         aliens.update_aliens()
             
         # call function update_screen for update images on screen and flip to the new screen

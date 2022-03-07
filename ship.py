@@ -1,4 +1,5 @@
 import pygame
+from timer import Timer
 
 class Ship():
     def __init__(self, ai_settings, screen):
@@ -23,11 +24,15 @@ class Ship():
         self.center = float(self.rect.centerx)
         self.bottom = float(self.rect.bottom)
         
+        
         # Movement flag
         self.moving_right = False
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+        
+    # def hit(self):
+    #     self.timer = self.exploding_timer()
         
     def update(self):
         """Update the ship's position based on the movement flag"""

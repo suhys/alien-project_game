@@ -2,6 +2,7 @@ import pygame
 from pygame.sprite import Sprite
 from timer import Timer
 
+
 class Alien(Sprite):
     """A class to represent an single alien in the fleet"""
     
@@ -46,6 +47,10 @@ class Alien(Sprite):
             return True
         elif self.rect.left <= 0:
             return True 
+    
+    def check_bottom(self):
+        """Return True if alien is at the bottom of screen"""
+        return self.rect.bottom > self.screen_rect.bottom
         
     def update(self):
         """Move the alien right or left"""

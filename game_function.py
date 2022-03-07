@@ -70,10 +70,13 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
         bullet.draw_bullet()
     # call the ship's blitme() method 
     ship.blitme()
-    aliens.draw(screen)
+    for alien in aliens:
+        alien.blitme()
               
     # Make the most recently drawn screen visible   
     pygame.display.flip()
+    
+
     
 def update_bullets(ai_settings, screen, ship, aliens, bullets):
     """Update position of bullets and get rid of old bullets"""

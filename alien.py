@@ -1,23 +1,24 @@
 import pygame
 from pygame.sprite import Sprite
+from timer import Timer
 
 class Alien(Sprite):
     """A class to represent an single alien in the fleet"""
     
-    alien_one_imgs = [pygame.image.load(f'images/alienOne{n}.png') for n in range(2)]
-    alien_two_imgs = [pygame.image.load(f'images/alienTwo{n}.png') for n in range(2)]
-    alien_Three_imgs = [pygame.image.load(f'images/alienThree{n}.png') for n in range(2)]
-    alien_Four_imgs = [pygame.image.load(f'images/alienFour{n}.png') for n in range(2)]
+    alien_0_imgs = [pygame.image.load(f'images/alienOne{n}.png') for n in range(2)]
+    alien_1_imgs = [pygame.image.load(f'images/alienTwo{n}.png') for n in range(2)]
+    alien_2_imgs = [pygame.image.load(f'images/alienThree{n}.png') for n in range(2)]
+    alien_3_imgs = [pygame.image.load(f'images/alienFour{n}.png') for n in range(2)]
     
     
-    def __init__(self,ai_settings, screen):
+    def __init__(self, ai_settings, screen):
         """initialize the alien and set its starting position"""
         super(Alien, self).__init__()
         self.screen = screen
         self.ai_settings = ai_settings
         
         #load the alien image and set its rect attribute
-        self.image = pygame.image.load('images/alienOne0.png')
+        self.image = pygame.image.load('images/alienOne1.png')
         self.rect = self.image.get_rect()
         
         #Start each new alien near the top left of the screen
@@ -28,9 +29,15 @@ class Alien(Sprite):
         #Store the alien's exact position 
         self.x = float(self.rect.x)
         
+        self.image_list = Alien.alien_0_imgs
+        self.timer = Timer(image_list = self.image_list, delay=1000, is_loop=True)
+        
     def blitme(self):
-        """Draw teh alien at its current position"""
-        self.screen.blit(self.image, self.rect)
+        """Draw the alien at its current position"""
+        image = self.timer.image()
+        rect = image.get_rect()
+        rect.x, rect.y = self.rect.x, self.rect.y
+        self.screen.blit(image, rect)
         
     def check_edges(self):
         """Return True if alien is at edge of screen"""

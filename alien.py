@@ -12,11 +12,11 @@ class Alien(Sprite):
     alien_3_imgs = [pygame.image.load(f'images/alienFour{n}.png') for n in range(2)]
     
     
-    def __init__(self, ai_settings, screen):
+    def __init__(self, game):
         """initialize the alien and set its starting position"""
         super(Alien, self).__init__()
-        self.screen = screen
-        self.ai_settings = ai_settings
+        self.screen = game.screen
+        self.settings = game.settings
         
         #load the alien image and set its rect attribute
         self.image = pygame.image.load('images/alienOne1.png')
@@ -32,6 +32,7 @@ class Alien(Sprite):
         
         self.image_list = Alien.alien_0_imgs
         self.timer = Timer(image_list = self.image_list, delay=1000, is_loop=True)
+        self.dying = False
         
     def blitme(self):
         """Draw the alien at its current position"""
@@ -50,10 +51,16 @@ class Alien(Sprite):
     
     def check_bottom(self):
         """Return True if alien is at the bottom of screen"""
-        return self.rect.bottom > self.screen_rect.bottom
+        screen_rect = self.screen.get_rect()
+        if self.rect.bottom > screen_rect.bottom:
+            return True
         
     def update(self):
         """Move the alien right or left"""
-        self.x += (self.ai_settings.alien_speed_factor * self.ai_settings.fleet_direction)
+        print("this is update")
+        if self.dying and self.timer.is_expired():
+            self.ship.die()
+            print("ship die")
+        self.x += (self.settings.alien_speed_factor * self.settings.fleet_direction)
         self.rect.x = self.x
         

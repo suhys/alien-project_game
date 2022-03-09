@@ -32,6 +32,8 @@ class Game:
             self.game_over()
         print("restarting game")
         
+        self.settings.increase_speed()
+
         self.bullets.empty()
         self.aliens.empty()
         
@@ -72,6 +74,7 @@ class Game:
             
     def game_over(self): 
         print('\nGAME OVER!\n\n')  
+        self.settings.initialize_dynamic_settings()
         exit()    # can ask to replay here instead of exiting the game
 
 def main():

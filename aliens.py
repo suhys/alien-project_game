@@ -3,6 +3,10 @@ from pygame.sprite import Sprite, Group
 from alien import Alien
 
 class Aliens:
+    alien_0_imgs = [pygame.image.load(f'images/alienOne{n}.png') for n in range(2)]
+    alien_1_imgs = [pygame.image.load(f'images/alienTwo{n}.png') for n in range(2)]
+    alien_2_imgs = [pygame.image.load(f'images/alienThree{n}.png') for n in range(2)]
+    alien_3_imgs = [pygame.image.load(f'images/alienFour{n}.png') for n in range(2)]
     
     def __init__(self, game):
         self.game = game
@@ -10,7 +14,7 @@ class Aliens:
         self.settings = game.settings
         self.ship = game.ship
         self.status = game.stats
-        alien = Alien(self.game)
+        alien = Alien(self.game, image_list = Aliens.alien_0_imgs)
         self.alien_h = alien.rect.height
         self.alien_w = alien.rect.width
         self.fleet = Group()
@@ -46,7 +50,7 @@ class Aliens:
 
     def create_alien(self, row_number, alien_number):
         """Create an alien and place it in the row"""
-        alien = Alien(self.game)
+        alien = Alien(self.game, image_list = Aliens.alien_0_imgs)
         alien.x = self.alien_w + 2 * self.alien_w * alien_number
         alien.rect.x = alien.x
         alien.rect.y = self.alien_h + 2 * self.alien_h * row_number

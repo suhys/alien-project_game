@@ -1,6 +1,6 @@
 import pygame as pg
 from sys import exit
-# from landing_page import LandingPage
+from landing_page import LandingPage
 from time import sleep
 from settings import Settings
 from ship import Ship
@@ -36,7 +36,7 @@ class Game:
         self.aliens.empty()
         
         self.aliens.create_fleet()
-        self.ship.center_ship()
+        self.ship.center_bottom()
         # self.ship.reset_timer()
         self.update()
         self.draw()
@@ -76,7 +76,8 @@ class Game:
 
 def main():
     game = Game()
-    # lp = LandingPage()
+    lp = LandingPage(game=game)
+    lp.show()
     game.run_game()
 
 if __name__ == '__main__':

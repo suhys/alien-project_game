@@ -4,20 +4,15 @@ from timer import Timer
 
 
 class Alien(Sprite):
-    """A class to represent an single alien in the fleet"""
+    """A class to represent an single alien in the fleet"""  
     
-    alien_0_imgs = [pygame.image.load(f'images/alienOne{n}.png') for n in range(2)]
-    alien_1_imgs = [pygame.image.load(f'images/alienTwo{n}.png') for n in range(2)]
-    alien_2_imgs = [pygame.image.load(f'images/alienThree{n}.png') for n in range(2)]
-    alien_3_imgs = [pygame.image.load(f'images/alienFour{n}.png') for n in range(2)]
-    
-    
-    def __init__(self, game):
+    def __init__(self, game, image_list):
         """initialize the alien and set its starting position"""
         super(Alien, self).__init__()
         self.screen = game.screen
         self.settings = game.settings
-        
+        self.image_list = image_list
+                
         #load the alien image and set its rect attribute
         self.image = pygame.image.load('images/alienOne1.png')
         self.rect = self.image.get_rect()
@@ -29,10 +24,12 @@ class Alien(Sprite):
         
         #Store the alien's exact position 
         self.x = float(self.rect.x)
-        
-        self.image_list = Alien.alien_0_imgs
+
         self.timer = Timer(image_list = self.image_list, delay=1000, is_loop=True)
         self.dying = False
+    
+    def set_p(self, ul):
+        self.rect.x, self.rect.y = ul
         
     def blitme(self):
         """Draw the alien at its current position"""

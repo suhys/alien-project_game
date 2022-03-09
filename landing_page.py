@@ -1,8 +1,7 @@
 import pygame as pg
 import sys
-from alien import AlienFleet, Alien
+from alien import Alien
 # from settings import Settings
-from vector import Vector
 from button import Button
 
 GREEN = (0, 255, 0)
@@ -42,18 +41,21 @@ class LandingPage:
 
         centerx = self.screen.get_rect().centerx
 
-        self.play_button = Button(self.screen, "PLAY GAME", ul=(centerx - 150, 650))
+        self.play_button = Button(self.screen, "PLAY GAME", ul=(centerx - 110, 650))
 
         n = len(self.texts)
         self.rects = [self.get_text_rect(text=self.texts[i], centerx=centerx, centery=self.posns[i]) for i in range(n)]
-        self.alien_one = Alien(game=game, image_list=LandingPage.alien_one_imgs, 
-                               v=Vector(), ul=(centerx - 120, 385))
-        self.alien_two = Alien(game=game, image_list=LandingPage.alien_two_imgs, 
-                               v=Vector(), ul=(centerx - 120, 445))
-        self.alien_three = Alien(game=game, image_list=LandingPage.alien_three_imgs, 
-                               v=Vector(), ul=(centerx - 120, 500))
-        self.ufo = Alien(game=game, image_list=LandingPage.ufo_imgs, 
-                               v=Vector(), ul=(centerx - 120, 565))
+        self.alien_one = Alien(game=game, image_list = LandingPage.alien_one_imgs)
+        self.alien_one.set_p(ul = (centerx - 110, 385))
+        
+        self.alien_two = Alien(game=game, image_list=LandingPage.alien_two_imgs)
+        self.alien_two.set_p(ul=(centerx - 110, 445))
+        
+        self.alien_three = Alien(game=game, image_list=LandingPage.alien_three_imgs)
+        self.alien_three.set_p(ul=(centerx - 110, 500))
+        
+        self.ufo = Alien(game=game, image_list=LandingPage.ufo_imgs)
+        self.ufo.set_p(ul=(centerx - 110, 565))
 
     def get_text(self, font, msg, color): return font.render(msg, True, color, BLACK)
 
@@ -90,10 +92,10 @@ class LandingPage:
 
     def draw(self):
         self.screen.fill(BLACK)
-        self.alien_one.draw()
-        self.alien_two.draw()
-        self.alien_three.draw()
-        self.ufo.draw()
+        self.alien_one.blitme()
+        self.alien_two.blitme()
+        self.alien_three.blitme()
+        self.ufo.blitme()
         self.draw_text()
         self.play_button.draw()
         # self.alien_fleet.draw()   # TODO draw my aliens

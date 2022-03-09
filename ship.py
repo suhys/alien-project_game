@@ -20,17 +20,17 @@ class Ship(Sprite):
         # use get_rect() to access the surface's rect attribute
         self.rect = self.image.get_rect()
         self.screen_rect = self.screen.get_rect()
-        
         # Start each new ship at the bottom center of the screen
         # initializing the x-coordinate of the ship's center (x, 0)
         self.rect.centerx = self.screen_rect.centerx
         # initializing the y-coordinate of the ship's bottom  (0, y)
         self.rect.bottom = self.screen_rect.bottom
+
+
+        
         # Store a decimal value for the ship's center
         self.center = float(self.rect.centerx)
         self.bottom = float(self.rect.bottom)
-        
-        
         
         # Movement flag
         self.moving_right = False
@@ -43,9 +43,10 @@ class Ship(Sprite):
         self.timer = self.normal_timer
         self.dying = False
     
-    def center_ship(self):
-       """Center the ship on teh screen"""
-       self.center = self.screen_rect.centerx
+    def center_bottom(self):
+        """Center the ship on the screen"""
+        self.center = self.screen_rect.centerx
+        self.bottom = self.rect.bottom
        
     def hit(self):
         # self.timer = self.exploding_timer
@@ -78,7 +79,6 @@ class Ship(Sprite):
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
             self.bottom += self.settings.ship_speed_factor
             
-        
         # Update rect object from self.center
         self.rect.centerx = self.center
         self.rect.bottom = self.bottom

@@ -31,11 +31,13 @@ class Game:
         if self.stats.ships_left == 0: 
             self.game_over()
         print("restarting game")
+        
         self.bullets.empty()
         self.aliens.empty()
-        self.aleins.create_fleet()
-        self.ship.center_bottom()
-        self.ship.reset_timer()
+        
+        self.aliens.create_fleet()
+        self.ship.center_ship()
+        # self.ship.reset_timer()
         self.update()
         self.draw()
         sleep(0.5)    
@@ -58,13 +60,13 @@ class Game:
         pg.display.flip()
     
     def run_game(self):
-        self.finished = False
         # Start the main loop for the game
+        self.finished = False
         while not self.finished:
             # call function check_event for respond keyboard and mouse events
             gf.check_events(game=self)
             self.update()    
-            # call function update_screen for u pdate images on screen and flip to the new screen
+            # call function update_screen for update images on screen and flip to the new screen
             self.draw()
         self.game_over()
             

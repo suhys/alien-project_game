@@ -25,7 +25,11 @@ class Ship(Sprite):
         # initializing the x-coordinate of the ship's center (x, 0)
         self.rect.centerx = self.screen_rect.centerx
         # initializing the y-coordinate of the ship's bottom  (0, y)
-        self.center_bottom()
+        self.rect.bottom = self.screen_rect.bottom
+        # Store a decimal value for the ship's center
+        self.center = float(self.rect.centerx)
+        self.bottom = float(self.rect.bottom)
+        
         
         
         # Movement flag
@@ -39,30 +43,28 @@ class Ship(Sprite):
         self.timer = self.normal_timer
         self.dying = False
     
-    def center_bottom(self):
-        # initializing the y-coordinate of the ship's bottom  (0, y)
-        self.rect.bottom = self.screen_rect.bottom
-        # Store a decimal value for the ship's center
-        self.center = float(self.rect.centerx)
-        self.bottom = float(self.rect.bottom)
+    def center_ship(self):
+       """Center the ship on teh screen"""
+       self.center = self.screen_rect.centerx
+       
+    def hit(self):
+        # self.timer = self.exploding_timer
+        self.dying = True
     
     def is_dying(self): return self.dying
-    
-    def hit(self):
-        # self.timer = self.exploding_timer()
-        self.dying = True
     
     def die(self):
         self.stats.ship_hit()
         if self.stats.ships_left == 0:
-            self.game.finsiehd = True
+            self.game.finshed = True
         self.dying = False
         self.game.restart()
         
     def update(self):
         """Update the ship's position based on the movement flag"""
         # Chick if the ship got hit
-        if self.dying and self.timer.is_expired():
+        # if self.dying and self.timer.is_expired():
+        if self.dying:
             self.die()
 
         # check self.moving_right is True (right arrow key is pressed) and did not reaches the edge

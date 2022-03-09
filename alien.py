@@ -52,12 +52,11 @@ class Alien(Sprite):
     def check_bottom(self):
         """Return True if alien is at the bottom of screen"""
         screen_rect = self.screen.get_rect()
-        if self.rect.bottom > screen_rect.bottom:
+        if self.rect.bottom >= screen_rect.bottom:
             return True
         
     def update(self):
         """Move the alien right or left"""
-        print("this is update")
         if self.dying and self.timer.is_expired():
             self.ship.die()
             print("ship die")

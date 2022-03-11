@@ -9,7 +9,7 @@ from game_stats import GameStats
 from scoreboard import Scoreboard
 from alien import Aliens
 from bullet import Bullets
-
+ 
 class Game:
     
     def __init__(self):

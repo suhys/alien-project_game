@@ -2,6 +2,8 @@ import pygame as pg
 #sprites allow to group related elements in the game and act on all the grouped elements at once
 from pygame.sprite import Sprite, Group
 from copy import copy
+from alien import Aliens
+import random
 # from alien import Alien
 
 class Bullets:
@@ -31,9 +33,19 @@ class Bullets:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
         
-        collisions = pg.sprite.groupcollide(self.aliens.fleet, self.bullets, False, False)
+        collisions = pg.sprite.groupcollide(self.aliens.fleet, self.bullets, False, True)
         for alien in collisions: 
-            if not alien.dying: alien.hit()
+            if not alien.dying: 
+                if alien.image_list == Aliens.alien_2_imgs:
+                    alien.points = 40
+                elif alien.image_list == Aliens.alien_1_imgs:
+                    alien.points = 20
+                elif alien.image_list == Aliens.alien_0_imgs:
+                    alien.points = 10
+                elif alien.image_list == Aliens.alien_3_imgs:
+                    alien.points = int(random.choice(Aliens.ran_score))
+                print (alien.points)
+                alien.hit()
             
         if len(self.aliens.fleet) == 0:
             self.stats.level_up()

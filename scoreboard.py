@@ -17,12 +17,14 @@ class SbElement:
         self.image, self.rect = None, None
         self.get_score = get_score
         self.last_score = self.get_score()
+        self.first_update = True
         self.update() 
 
     def update(self): 
         score = self.get_score()
-        if score != 0 and self.last_score == score: return
+        if not self.first_update and self.last_score == score: return
 
+        self.first_update = False
         self.last_score = score
         score_str = str(score)
         if self.round:

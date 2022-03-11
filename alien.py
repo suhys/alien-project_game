@@ -8,8 +8,9 @@ class Aliens:
     alien_0_imgs = [pygame.image.load(f'images/alienOne{n}.png') for n in range(2)]
     alien_1_imgs = [pygame.image.load(f'images/alienTwo{n}.png') for n in range(2)]
     alien_2_imgs = [pygame.image.load(f'images/alienThree{n}.png') for n in range(2)]
-    alien_3_imgs = [pygame.image.load(f'images/alienFour{n}.png') for n in range(2)]
+    alien_3_imgs = [pygame.transform.rotozoom(pygame.image.load(f'images/alienFour{n}.png'), 0 ,2) for n in range(2)]
     image3 = pygame.image.load('images/alienFour0.png')
+    ran_score = [100,200,300,400,500]
     
     def __init__(self, game):
         self.game = game
@@ -26,11 +27,11 @@ class Aliens:
         self.fleet.add(self.alien3)
         self.exclude = self.alien_h3
         
-        self.alien = Alien(self.game, image_list = Aliens.alien_2_imgs)
+        self.alien = Alien(self.game, image_list = Aliens.alien_2_imgs, image = pygame.image.load('images/alienOne0.png'))
         self.height_width(image_list = Aliens.alien_2_imgs)
-        self.alien = Alien(self.game, image_list = Aliens.alien_1_imgs)
+        self.alien = Alien(self.game, image_list = Aliens.alien_1_imgs, image = pygame.image.load('images/alienTwo0.png'))
         self.height_width(image_list = Aliens.alien_1_imgs)
-        self.alien = Alien(self.game, image_list = Aliens.alien_0_imgs)
+        self.alien = Alien(self.game, image_list = Aliens.alien_0_imgs, image = pygame.image.load('images/alienThree0.png'))
         self.height_width(image_list = Aliens.alien_0_imgs)
 
     def height_width(self, image_list):
@@ -73,7 +74,7 @@ class Aliens:
         alien = Alien(self.game, image_list = image_list)
         alien.x = self.alien_w + 2 * self.alien_w * alien_number
         alien.rect.x = alien.x
-        alien.rect.y = self.alien_h + 2 * self.alien_h * row_number + self.exclude  
+        alien.rect.y = self.alien_h * 2 + 2 * self.alien_h * row_number + self.exclude  
         self.fleet.add(alien)
             
         
@@ -118,7 +119,7 @@ class Aliens:
 class Alien(Sprite):
     """A class to represent an single alien in the fleet"""  
     
-    def __init__(self, game, image_list, points = 10):
+    def __init__(self, game, image_list, image= Aliens.image3, points = 10):
         """initialize the alien and set its starting position"""
         super().__init__()
         self.screen = game.screen
@@ -128,7 +129,7 @@ class Alien(Sprite):
         self.points = points
                 
         #load the alien image and set its rect attribute
-        self.image = Aliens.image3
+        self.image = image
         self.rect = self.image.get_rect()
         
         #Start each new alien near the top left of the screen

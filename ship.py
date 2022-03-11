@@ -22,6 +22,7 @@ class Ship(Sprite):
         
         # use get_rect() to access the surface's rect attribute
         self.rect = self.image.get_rect()
+
         self.screen_rect = self.screen.get_rect()
         # Start each new ship at the bottom center of the screen
         self.center_bottom()

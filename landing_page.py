@@ -19,6 +19,7 @@ class LandingPage:
     def __init__(self, game):
         self.screen = game.screen
         self.landing_page_finished = False
+        self.highscore = game.stats.get_highscore()
 
         headingFont = pg.font.SysFont(None, 192)
         subheadingFont = pg.font.SysFont(None, 122)
@@ -28,7 +29,7 @@ class LandingPage:
                 ('= 10 PTS', GREY, font), ('= 20 PTS', GREY, font),
                             ('= 40 PTS', GREY, font), ('= ???', GREY, font),
                # ('PLAY GAME', GREEN, font), 
-                ('HIGH SCORES', GREY, font)]
+                (f'HIGH SCORE = {str(self.highscore)}', GREY, font)]
 
         self.texts = [self.get_text(msg=s[0], color=s[1], font=s[2]) for s in strings]
 

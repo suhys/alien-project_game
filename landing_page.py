@@ -56,6 +56,8 @@ class LandingPage:
         
         self.ufo = Alien(game=game, image_list=LandingPage.ufo_imgs)
         self.ufo.set_p(ul=(centerx - 110, 565))
+        
+        self.hover = False
 
     def get_text(self, font, msg, color): return font.render(msg, True, color, BLACK)
 
@@ -64,6 +66,9 @@ class LandingPage:
         rect.centerx = centerx
         rect.centery = centery
         return rect
+    def mouse_on_button(self):
+        mouse_x, mouse_y = pg.mouse.get_pos()
+        return self.play_button.rect.collidepoint(mouse_x, mouse_y)
 
     def check_events(self):
         for e in pg.event.get():
@@ -72,9 +77,15 @@ class LandingPage:
             if e.type == pg.KEYUP and e.key == pg.K_p:   # pretend PLAY BUTTON pressed
                 self.landing_page_finished = True        
             elif e.type == pg.MOUSEBUTTONDOWN:
-                mouse_x, mouse_y = pg.mouse.get_pos()
-                if self.play_button.rect.collidepoint(mouse_x, mouse_y):
-                    self.landing_page_finished = True
+                    if self.mouse_on_button():
+                        self.landing_page_finished = True
+            elif e.type == pg.MOUSEMOTION:
+                if self.mouse_on_button() and not self.hover:
+                    self.play_button.toggle_colors()
+                    self.hover = True
+                elif not self.mouse_on_button() and self.hover:
+                    self.play_button.toggle_colors()
+                    self.hover = False
 
     def update(self):       # TODO make aliens move
         pass 

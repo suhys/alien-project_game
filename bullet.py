@@ -7,10 +7,9 @@ from copy import copy
 class Bullets:
     def __init__(self, game):
         self.game = game
-        self.screen = self.game.screen
         self.settings = self.game.settings
-        self.ship = self.game.ship
         self.aliens = self.game.aliens
+        self.stats = game.stats
         
         self.bullets = Group()
         
@@ -32,15 +31,12 @@ class Bullets:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
         
-        
-        print(len(self.bullets))
-        
         collisions = pg.sprite.groupcollide(self.aliens.fleet, self.bullets, False, False)
         for alien in collisions: 
             if not alien.dying: alien.hit()
             
         if len(self.aliens.fleet) == 0:
-            # Destory existing bullets and create new fleet
+            self.stats.level_up()
             self.game.restart()
         
         # Update bullet positions

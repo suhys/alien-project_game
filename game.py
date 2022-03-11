@@ -6,6 +6,7 @@ from settings import Settings
 from ship import Ship
 import game_function as gf
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from alien import Aliens
 from bullet import Bullets
 
@@ -19,6 +20,7 @@ class Game:
         self.screen = pg.display.set_mode((self.settings.screen_width,
                                            self.settings.screen_height))
         self.bg_color = self.settings.bg_color
+        self.sb = Scoreboard(game=self)
         
         # create a display winddow called screen 
         pg.display.set_caption("Alien Invasion")
@@ -43,7 +45,7 @@ class Game:
         
         self.aliens.create_fleet()
         self.ship.center_bottom()
-        # self.ship.reset_timer()
+        self.ship.reset_timer()        
         self.update()
         self.draw()
         sleep(0.5)    
@@ -52,20 +54,20 @@ class Game:
         self.ship.update()
         self.bullets.update_bullets()
         self.aliens.update_aliens()
+        self.sb.update()
     
     def draw(self):
         """Update images on the screen and flip to the new screen"""
         # Redraw the screen during each pas through the loop
         self.screen.fill(self.bg_color)
-        # Redraw all bullets behind ship and aliens
-        self.bullets.draw()
-        # call the ship's blitme() method 
         self.ship.blitme()
         self.aliens.draw()
+        self.bullets.draw()
+        self.sb.draw()
         # Make the most recently drawn screen visible   
         pg.display.flip()
     
-    def run_game(self):
+    def run_game(self):  
         # Start the main loop for the game
         self.finished = False
         while not self.finished:

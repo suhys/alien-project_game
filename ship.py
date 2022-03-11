@@ -1,13 +1,16 @@
+from tkinter import PAGES
 import pygame as pg
 from timer import Timer
 from pygame.sprite import Sprite
 
 class Ship(Sprite):
     
+    exploding_image = [pg.image.load(f'images/explode{n}.png') for n in range(4)]
     images = [pg.image.load(f'images/ship.bmp') for n in range(1)]
     
     def __init__(self, game):
         """Initialize the ship and set its starting position"""
+        super().__init__()
         self.game = game
         self.screen = game.screen
         self.settings = game.settings
@@ -38,7 +41,7 @@ class Ship(Sprite):
         self.moving_up = False
         self.moving_down = False
         
-        # self.exploding_timer = Timer(image_list=Ship.exploding_images, delay=200, is_loop=False)
+        self.exploding_timer = Timer(image_list=Ship.exploding_image, delay=200, is_loop=False)
         self.normal_timer = Timer(image_list=Ship.images, delay=1000, is_loop=True)
         self.timer = self.normal_timer
         self.dying = False
@@ -47,6 +50,11 @@ class Ship(Sprite):
         """Center the ship on the screen"""
         self.center = self.screen_rect.centerx
         self.bottom = self.rect.bottom
+        
+    def reset_timer(self):
+        self.exploding_timer.reset()
+        self.normal_timer.reset()
+        self.timer = self.normal_timer
        
     def hit(self):
         self.timer = self.exploding_timer

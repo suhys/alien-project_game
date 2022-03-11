@@ -3,7 +3,7 @@ from pygame.sprite import Sprite, Group
 from timer import Timer
 
 class Aliens:
-    alien_exploding_image_1 = [pygame.image.load(f'images/explode{n}.png') for n in range(4)]
+    exploding_image = [pygame.image.load(f'images/explode{n}.png') for n in range(4)]
     
     alien_0_imgs = [pygame.image.load(f'images/alienOne{n}.png') for n in range(2)]
     alien_1_imgs = [pygame.image.load(f'images/alienTwo{n}.png') for n in range(2)]
@@ -99,12 +99,14 @@ class Aliens:
 class Alien(Sprite):
     """A class to represent an single alien in the fleet"""  
     
-    def __init__(self, game, image_list):
+    def __init__(self, game, image_list, points = 10):
         """initialize the alien and set its starting position"""
         super().__init__()
         self.screen = game.screen
         self.settings = game.settings
         self.ship = game.ship
+        self.stats = game.stats
+        self.points = points
                 
         #load the alien image and set its rect attribute
         self.image = pygame.image.load('images/alienOne1.png')
@@ -119,7 +121,7 @@ class Alien(Sprite):
         self.x = float(self.rect.x)
         
         self.image_list = image_list
-        self.exploding_timer = Timer(image_list= Aliens.alien_exploding_image_1, 
+        self.exploding_timer = Timer(image_list= Aliens.exploding_image, 
                                      delay = 200, is_loop = False)
         self.normal_timer = Timer(image_list=image_list, delay=1000, is_loop=True)
         self.timer = self.normal_timer
@@ -151,7 +153,7 @@ class Alien(Sprite):
             return True
         
     def hit(self):
-        # self.stats.alien_hit(alien=self)
+        self.stats.alien_hit(alien=self)
         self.timer = self.exploding_timer
         self.dying = True
         

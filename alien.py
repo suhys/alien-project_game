@@ -9,6 +9,7 @@ class Aliens:
     alien_1_imgs = [pygame.image.load(f'images/alienTwo{n}.png') for n in range(2)]
     alien_2_imgs = [pygame.image.load(f'images/alienThree{n}.png') for n in range(2)]
     alien_3_imgs = [pygame.image.load(f'images/alienFour{n}.png') for n in range(2)]
+    image3 = pygame.image.load('images/alienFour0.png')
     
     def __init__(self, game):
         self.game = game
@@ -16,16 +17,29 @@ class Aliens:
         self.settings = game.settings
         self.ship = game.ship
         self.status = game.stats
-        alien = Alien(self.game, image_list = Aliens.alien_0_imgs)
-        self.alien_h = alien.rect.height
-        self.alien_w = alien.rect.width
         self.fleet = Group()
+    
+    def aliens_fleet(self):
+        self.alien3 = Alien(self.game, image_list = Aliens.alien_3_imgs)
+        self.fleet.add(self.alien3)
+        self.alien_h3 = self.alien3.rect.height
+        self.exclude = self.alien_h3 * 2
         
-        self.create_fleet()
-        
+        self.alien = Alien(self.game, image_list = Aliens.alien_2_imgs)
+        self.height_width(image_list = Aliens.alien_2_imgs)
+        self.alien = Alien(self.game, image_list = Aliens.alien_1_imgs)
+        self.height_width(image_list = Aliens.alien_1_imgs)
+        self.alien = Alien(self.game, image_list = Aliens.alien_0_imgs)
+        self.height_width(image_list = Aliens.alien_0_imgs)
+
+    def height_width(self, image_list):
+            self.alien_h = self.alien.rect.height
+            self.alien_w = self.alien.rect.width
+            self.create_fleet(image_list = image_list)
+    
     def empty(self) : self.fleet.empty()
     
-    def create_fleet(self):
+    def create_fleet(self, image_list):
         """Create a full fleet of aliens"""
         # Create an alien and find the number of aliens in a row
         #Spacing between each alien is equal to one alien width
@@ -36,7 +50,9 @@ class Aliens:
         #Create the first row of aliens
         for row_number in range(number_rows):
             for alien_number in range(number_aliens_x):
-                self.create_alien(row_number = row_number, alien_number = alien_number)
+                self.create_alien(row_number = row_number, alien_number = alien_number, image_list = image_list)
+        
+        self.exclude += self.alien_h + 2 * self.alien_h * row_number
 
     def get_number_aliens_x(self, alien_width):
         """Determine the number of aliens tha fit in a row"""
@@ -46,17 +62,19 @@ class Aliens:
 
     def get_number_rows(self, ship_height, alien_height):
         """Determine the number of rows of aliens that fit on the screen"""
-        available_space_y = (self.settings.screen_height - (3 * alien_height) - ship_height)
+        available_space_y = (self.settings.screen_height - (3 * alien_height) - ship_height - self.alien_h3)
         number_rows = int(available_space_y / ( 2 * alien_height))
-        return number_rows
+        number_rows = number_rows/3
+        return int(number_rows)
 
-    def create_alien(self, row_number, alien_number):
+    def create_alien(self, row_number, alien_number, image_list):
         """Create an alien and place it in the row"""
-        alien = Alien(self.game, image_list = Aliens.alien_0_imgs)
+        alien = Alien(self.game, image_list = image_list)
         alien.x = self.alien_w + 2 * self.alien_w * alien_number
         alien.rect.x = alien.x
-        alien.rect.y = self.alien_h + 2 * self.alien_h * row_number
+        alien.rect.y = self.alien_h + 2 * self.alien_h * row_number + self.exclude  
         self.fleet.add(alien)
+            
         
     def update_aliens(self):
         """Check if the fleet is at an enge,
@@ -109,7 +127,7 @@ class Alien(Sprite):
         self.points = points
                 
         #load the alien image and set its rect attribute
-        self.image = pygame.image.load('images/alienOne1.png')
+        self.image = Aliens.image3
         self.rect = self.image.get_rect()
         
         #Start each new alien near the top left of the screen
@@ -117,8 +135,8 @@ class Alien(Sprite):
         self.rect.x = self.rect.width
         self.rect.y = self.rect.height
         
-        #Store the alien's exact position 
-        self.x = float(self.rect.x)
+        # #Store the alien's exact position 
+        # self.x = float(self.rect.x)
         
         self.image_list = image_list
         self.exploding_timer = Timer(image_list= Aliens.exploding_image, 
@@ -161,6 +179,7 @@ class Alien(Sprite):
         """Move the alien right or left"""
         if self.dying and self.timer.is_expired():
             self.kill()
-        self.x += (self.settings.alien_speed_factor * self.settings.fleet_direction)
-        self.rect.x = self.x
+            
+        self.rect.x += (self.settings.alien_speed_factor * self.settings.fleet_direction)
+        
         

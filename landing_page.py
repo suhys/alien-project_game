@@ -66,6 +66,7 @@ class LandingPage:
         rect.centerx = centerx
         rect.centery = centery
         return rect
+    
     def mouse_on_button(self):
         mouse_x, mouse_y = pg.mouse.get_pos()
         return self.play_button.rect.collidepoint(mouse_x, mouse_y)

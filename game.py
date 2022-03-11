@@ -43,7 +43,7 @@ class Game:
         self.bullets.empty()
         self.aliens.empty()
         
-        self.aliens.create_fleet()
+        self.aliens.aliens_fleet()
         self.ship.center_bottom()
         self.ship.reset_timer()        
         self.update()

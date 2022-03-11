@@ -49,7 +49,7 @@ class Ship(Sprite):
         self.bottom = self.rect.bottom
        
     def hit(self):
-        # self.timer = self.exploding_timer
+        self.timer = self.exploding_timer
         self.dying = True
     
     def is_dying(self): return self.dying
@@ -64,8 +64,7 @@ class Ship(Sprite):
     def update(self):
         """Update the ship's position based on the movement flag"""
         # Chick if the ship got hit
-        # if self.dying and self.timer.is_expired():
-        if self.dying:
+        if self.dying and self.timer.is_expired():
             self.die()
 
         # check self.moving_right is True (right arrow key is pressed) and did not reaches the edge
@@ -86,4 +85,7 @@ class Ship(Sprite):
     def blitme(self):
         """Draw the ship at its current location"""
         # blitme() method, which will draw the image to the screen at the position specified by self.rect
-        self.screen.blit(self.image, self.rect)
+        image = self.timer.image()
+        rect = image.get_rect()
+        rect.x, rect.y = self.rect.x, self.rect.y
+        self.screen.blit(image, rect)

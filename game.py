@@ -6,7 +6,7 @@ from settings import Settings
 from ship import Ship
 import game_function as gf
 from game_stats import GameStats
-from aliens import Aliens
+from alien import Aliens
 from bullet import Bullets
 
 class Game:
@@ -30,7 +30,11 @@ class Game:
     def restart(self):
         if self.stats.ships_left == 0: 
             self.game_over()
-        print("restarting game")
+        elif len(self.aliens.fleet) == 0:
+            print("level up")
+        else:
+            print("restarting game")
+        
         
         self.settings.increase_speed()
 
@@ -67,7 +71,7 @@ class Game:
         while not self.finished:
             # call function check_event for respond keyboard and mouse events
             gf.check_events(game=self)
-            self.update()    
+            self.update()
             # call function update_screen for update images on screen and flip to the new screen
             self.draw()
         self.game_over()

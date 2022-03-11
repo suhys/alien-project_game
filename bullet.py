@@ -2,13 +2,13 @@ import pygame as pg
 #sprites allow to group related elements in the game and act on all the grouped elements at once
 from pygame.sprite import Sprite, Group
 from copy import copy
+# from alien import Alien
 
 class Bullets:
     def __init__(self, game):
         self.game = game
         self.screen = self.game.screen
         self.settings = self.game.settings
-        self.screen = self.game.screen
         self.ship = self.game.ship
         self.aliens = self.game.aliens
         
@@ -32,24 +32,21 @@ class Bullets:
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
         
+        
         print(len(self.bullets))
         
-        self.check_bullet_alien_collisions()
-        
-        # Update bullet positions.
-        for bullet in self.bullets:
-            bullet.update()
-    
-    def check_bullet_alien_collisions(self):
-        """Respond to bullet- alien collisions"""
-        # Remove any bullets and aliens that have collied 
-        collisions = pg.sprite.groupcollide(self.bullets, self.aliens.fleet, False, True)
+        collisions = pg.sprite.groupcollide(self.aliens.fleet, self.bullets, False, False)
+        for alien in collisions: 
+            if not alien.dying: alien.hit()
             
         if len(self.aliens.fleet) == 0:
             # Destory existing bullets and create new fleet
-            self.bullets.empty()
-            self.aliens.create_fleet()
-            
+            self.game.restart()
+        
+        # Update bullet positions
+        for bullet in self.bullets:
+            bullet.update()
+                            
     def draw(self):
         for bullet in self.bullets:
             bullet.draw_bullet()

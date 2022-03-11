@@ -24,10 +24,7 @@ class Ship(Sprite):
         self.rect = self.image.get_rect()
         self.screen_rect = self.screen.get_rect()
         # Start each new ship at the bottom center of the screen
-        # initializing the x-coordinate of the ship's center (x, 0)
-        self.rect.centerx = self.screen_rect.centerx
-        # initializing the y-coordinate of the ship's bottom  (0, y)
-        self.rect.bottom = self.screen_rect.bottom
+        self.center_bottom()
 
 
         
@@ -48,7 +45,9 @@ class Ship(Sprite):
     
     def center_bottom(self):
         """Center the ship on the screen"""
-        self.center = self.screen_rect.centerx
+        self.rect.centerx = self.screen_rect.centerx
+        self.rect.bottom = self.screen_rect.bottom
+        self.center = self.rect.centerx
         self.bottom = self.rect.bottom
         
     def reset_timer(self):

@@ -21,9 +21,10 @@ class Aliens:
     
     def aliens_fleet(self):
         self.alien3 = Alien(self.game, image_list = Aliens.alien_3_imgs)
+        self.alien_h3 = self.ship.rect.height + self.alien3.rect.height
+        self.alien3.rect.y = self.alien_h3
         self.fleet.add(self.alien3)
-        self.alien_h3 = self.alien3.rect.height
-        self.exclude = self.alien_h3 * 2
+        self.exclude = self.alien_h3
         
         self.alien = Alien(self.game, image_list = Aliens.alien_2_imgs)
         self.height_width(image_list = Aliens.alien_2_imgs)

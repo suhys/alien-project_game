@@ -48,12 +48,13 @@ class Scoreboard():
         sr = screen.get_rect()
         self.bg_color = game.bg_color
         font = pg.font.SysFont(None, 48)
+        self.height = 20
 
         self.score = SbElement(screen=screen, bg_color=game.bg_color,
-                               ul=(sr.right - 40, 20), font=font, 
+                               ul=(sr.right - 40, self.height), font=font, 
                                get_score=self.stats.get_score)
         self.highscore = SbElement(screen=screen, bg_color=game.bg_color,
-                                   ul=(sr.centerx, 20), font=font, 
+                                   ul=(sr.centerx, self.height), font=font, 
                                    get_score=self.stats.get_highscore)
         self.level = SbElement(screen=screen, bg_color=game.bg_color,
                                    ul=(sr.right - 40, 50), font=font, 

@@ -5,8 +5,8 @@ from pygame.sprite import Sprite
 
 class Ship(Sprite):
     
-    exploding_image = [pg.image.load(f'images/explode{n}.png') for n in range(4)]
-    images = [pg.image.load(f'images/ship.bmp') for n in range(1)]
+    exploding_image = [pg.transform.rotozoom(pg.image.load(f'images/ship_explode{n}.png'), 0 ,2) for n in range(8)]
+    images = [pg.transform.rotozoom(pg.image.load(f'images/ship.png'), 0, 2)]
     
     def __init__(self, game):
         """Initialize the ship and set its starting position"""
@@ -18,7 +18,7 @@ class Ship(Sprite):
         
         # Load the ship image and get its rect
         #returns a surface representing the ship, and store in self.image
-        self.image = pg.image.load('images/ship.bmp')
+        self.image =pg.transform.rotozoom(pg.image.load(f'images/ship.png'), 0, 2)
         
         # use get_rect() to access the surface's rect attribute
         self.rect = self.image.get_rect()
@@ -39,7 +39,7 @@ class Ship(Sprite):
         self.moving_up = False
         self.moving_down = False
         
-        self.exploding_timer = Timer(image_list=Ship.exploding_image, delay=200, is_loop=False)
+        self.exploding_timer = Timer(image_list=Ship.exploding_image, delay=50, is_loop=False)
         self.normal_timer = Timer(image_list=Ship.images, delay=1000, is_loop=True)
         self.timer = self.normal_timer
         self.dying = False

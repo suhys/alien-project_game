@@ -1,10 +1,9 @@
 import pygame as pg
 #sprites allow to group related elements in the game and act on all the grouped elements at once
 from pygame.sprite import Sprite, Group
-from copy import copy
 from alien import Aliens
 import random
-# from alien import Alien
+from sound import Sound
 
 class Bullets:
     def __init__(self, game):
@@ -12,6 +11,9 @@ class Bullets:
         self.settings = self.game.settings
         self.aliens = self.game.aliens
         self.stats = game.stats
+        self.UFO = game.UFO
+        self.sound = game.sound
+        self.barriers = self.game.barriers
         
         self.bullets = Group()
         
@@ -22,7 +24,9 @@ class Bullets:
         # Create a new bullet and add it to the bullets group.
         if len(self.bullets) < self.settings.bullets_allowed:
             new_bullet = Bullet(self.game)
+            new_bullet
             self.bullets.add(new_bullet)
+    
     
     def update_bullets(self):
         """Update position of bullets and get rid of old bullets"""
@@ -32,6 +36,7 @@ class Bullets:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+                          
         
         collisions = pg.sprite.groupcollide(self.aliens.fleet, self.bullets, False, True)
         for alien in collisions: 
@@ -42,10 +47,18 @@ class Bullets:
                     alien.points = 20
                 elif alien.image_list == Aliens.alien_0_imgs:
                     alien.points = 10
-                elif alien.image_list == Aliens.alien_3_imgs:
-                    alien.points = int(random.choice(Aliens.ran_score))
                 print (alien.points)
                 alien.hit()
+        collisions = pg.sprite.groupcollide(self.UFO.ufo_fleet, self.bullets, False, True)
+        for ufo in collisions:
+            if not ufo.dying:            
+                print (ufo.points)
+                ufo.hit()
+        
+        collisions = pg.sprite.groupcollide(self.bullets, self.barriers.barriers, True, False)
+            
+        
+
             
         if len(self.aliens.fleet) == 0:
             self.stats.level_up()
@@ -71,9 +84,6 @@ class Bullet(Sprite):
         self.settings = game.settings
         self.ship = game.ship
         self.aliens = game.aliens
-        
-        # Make a group to store bullets in
-        self.bullets = Group()
 
         
         # Create a bullet rect at (0, 0) and then set correct position
@@ -97,5 +107,4 @@ class Bullet(Sprite):
     def draw_bullet(self):
         """Draw the bullet to the screen"""
         pg.draw.rect(self.screen, self.color, self.rect) 
-    
-    
+        

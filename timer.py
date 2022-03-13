@@ -30,3 +30,4 @@ class Timer:
   def image(self): 
     self.next_frame()
     return self.image_list[self.index]
+  

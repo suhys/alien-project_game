@@ -2,6 +2,7 @@ import pygame.font
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 WHITE = (255, 255, 255)
+GREY = (130, 130, 130)
 
 class Button():
     def __init__(self, screen, msg, ul):
